@@ -45,6 +45,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
 
 import static org.junit.Assert.*;
 
@@ -77,7 +78,7 @@ public class SqlDaoTest extends PermissionsExTest {
     @Override
     public void setUp() throws IOException, PEBKACException, PermissionsLoadingException, ObjectMappingException {
         File testDir = tempFolder.newFolder();
-        jdbcUrl = jdbcUrl.replaceAll("\\{base\\}", testDir.getCanonicalPath());
+        jdbcUrl = jdbcUrl.replaceAll("\\{base\\}", Matcher.quoteReplacement(testDir.getCanonicalPath()));
         sqlStore.setConnectionUrl(jdbcUrl);
         sqlStore.setPrefix("pextest" + COUNTER.getAndIncrement());
         super.setUp();
