@@ -16,8 +16,6 @@
  */
 package ninja.leaping.permissionsex.backend.sql;
 
-import com.google.common.collect.Maps;
-
 import java.util.Map;
 import java.util.Objects;
 
@@ -127,7 +125,7 @@ public class SubjectRef implements Map.Entry<String, String> {
 
     @Override
     public String toString() {
-        return com.google.common.base.Objects.toStringHelper(this)
+        return com.google.common.base.MoreObjects.toStringHelper(this)
                 .add("id", id)
                 .add("type", type)
                 .add("identifier", identifier)

@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
+import java.util.Collections;
 import ninja.leaping.permissionsex.PermissionsEx;
 import ninja.leaping.permissionsex.subject.CalculatedSubject;
 import ninja.leaping.permissionsex.util.NodeTree;
@@ -123,7 +124,7 @@ public class PEXPermissible extends PermissibleBase {
         @Override
         public Iterator<String> getValues(CalculatedSubject subj, Set<Map.Entry<String, String>> contexts) {
             String ret = subj.getOptions(contexts).get(option);
-            return ret == null ? Iterators.emptyIterator() : Iterators.singletonIterator(this.option + "." + ret);
+            return ret == null ? Collections.emptyIterator() : Iterators.singletonIterator(this.option + "." + ret);
         }
     }
     private final Player player;
