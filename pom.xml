@@ -85,6 +85,7 @@
             <version>1.1.Final</version>
             <executions>
               <!-- run after "compile", lets your artifact work on 1.6 -->
+              <!--
               <execution>
                 <id>weave</id>
                 <phase>process-classes</phase>
@@ -92,7 +93,9 @@
                   <goal>transform</goal>
                 </goals>
               </execution>
+              -->
               <!-- run after "test-compile", lets you run your tests on 1.6 -->
+              <!--
               <execution>
                 <id>weave-tests</id>
                 <phase>process-test-classes</phase>
@@ -103,8 +106,10 @@
                   <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
                 </configuration>
               </execution>
+              -->
             </executions>
           </plugin>
+          <!--
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>animal-sniffer-maven-plugin</artifactId>
@@ -128,6 +133,7 @@
               </execution>
             </executions>
           </plugin>
+          -->
         </plugins>
     </build>
     <dependencies>
