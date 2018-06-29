@@ -25,7 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 import com.google.common.cache.CacheBuilder;
-import com.zachsthings.netevents.NetEventsPlugin;
+//import com.zachsthings.netevents.NetEventsPlugin; // WoeshEdit - Remove NetEvents dependency.
 import net.gravitydevelopment.updater.Updater;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -69,7 +69,7 @@ public class PermissionsEx extends JavaPlugin implements NativeInterface {
 	private PermissionsExConfig config;
 	protected SuperpermsListener superms;
 	private RegexPermissions regexPerms;
-	private NetEventsPlugin netEvents;
+//	private NetEventsPlugin netEvents; // WoeshEdit - Remove NetEvents dependency.
 	private boolean errored = false;
 	private static PermissionsEx instance;
 	{
@@ -266,14 +266,15 @@ public class PermissionsEx extends JavaPlugin implements NativeInterface {
 					}
 				});
 			}
-			if (getConfiguration().useNetEvents()) {
-				Plugin netEventsPlugin = getServer().getPluginManager().getPlugin("NetEvents");
-				if (netEventsPlugin != null && netEventsPlugin.isEnabled()) {
-					NetEventsPlugin netEvents = (NetEventsPlugin) netEventsPlugin;
-					getServer().getPluginManager().registerEvents(new RemoteEventListener(netEvents, permissionsManager), this);
-					this.netEvents = netEvents;
-				}
-			}
+// WoeshEdit - Remove NetEvents dependency.
+//			if (getConfiguration().useNetEvents()) {
+//				Plugin netEventsPlugin = getServer().getPluginManager().getPlugin("NetEvents");
+//				if (netEventsPlugin != null && netEventsPlugin.isEnabled()) {
+//					NetEventsPlugin netEvents = (NetEventsPlugin) netEventsPlugin;
+//					getServer().getPluginManager().registerEvents(new RemoteEventListener(netEvents, permissionsManager), this);
+//					this.netEvents = netEvents;
+//				}
+//			}
 		} catch (PermissionBackendException e) {
 			logBackendExc(e);
 			this.getPluginLoader().disablePlugin(this);
@@ -382,16 +383,19 @@ public class PermissionsEx extends JavaPlugin implements NativeInterface {
 
 	@Override
 	public UUID getServerUUID() {
-		return netEvents == null ? null : netEvents.getServerUUID();
+		// WoeshEdit - Remove NetEvents dependency.
+//		return netEvents == null ? null : netEvents.getServerUUID();
+		return null;
 	}
 
 	@Override
 	public void callEvent(PermissionEvent event) {
-		if (netEvents != null) {
-			netEvents.callEvent(event);
-		} else {
+		// WoeshEdit - Remove NetEvents dependency.
+//		if (netEvents != null) {
+//			netEvents.callEvent(event);
+//		} else {
 			getServer().getPluginManager().callEvent(event);
-		}
+//		}
 	}
 
 	public static boolean isAvailable() {

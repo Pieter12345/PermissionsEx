@@ -145,12 +145,14 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+        <!-- 'netevents' depends on Bukkit 1.7.2-R0.1 in the removed old Bukkit repository.
         <dependency>
             <groupId>com.zachsthings</groupId>
             <artifactId>netevents</artifactId>
             <version>1.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit-dep</artifactId>
