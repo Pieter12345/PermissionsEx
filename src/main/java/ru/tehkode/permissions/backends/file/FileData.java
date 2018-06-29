@@ -120,6 +120,25 @@ public class FileData implements PermissionsUserData, PermissionsGroupData {
 	@Override
 	public void setPermissions(List<String> permissions, String worldName) {
 		this.node.set(formatPath(worldName, "permissions"), permissions == null ? null : new ArrayList<>(permissions));
+
+		// Remove indices instead of setting them to empty Strings or arrays in the permissions.yml file.
+
+		// Remove the "permissions" parent if it is now empty.
+		if(permissions == null || permissions.isEmpty()) {
+			List<String> permsList = this.node.getStringList(formatPath(worldName, "permissions"));
+			if(permsList != null && permsList.isEmpty()) {
+
+				// Remove the "permissions" parent if it is now empty.
+				this.node.set(formatPath(worldName, "permissions"), null);
+
+				// Check if the identifier (player name / UUID) is now empty (only contains an "options.name") and remove it if it is.
+				if(this.isIdentifierEntryEmpty()) {
+					this.remove();
+					return; // remove() invokes save() already.
+				}
+			}
+		}
+
 		save();
 	}
 
@@ -165,7 +184,40 @@ public class FileData implements PermissionsUserData, PermissionsGroupData {
 
 	@Override
 	public void setOption(String option, String value, String worldName) {
-		this.node.set(formatPath(worldName, "options", option), value);
+
+		// Remove indices instead of setting them to empty Strings or arrays in the permissions.yml file.
+
+		// Remove the value if it's empty or null.
+		if(value == null || value.isEmpty()) {
+			this.node.set(formatPath(worldName, "options", option), null);
+
+			// Remove the "options" parent if it is now empty.
+			ConfigurationSection optionsSection = this.node.getConfigurationSection(formatPath(worldName, "options"));
+			if(optionsSection != null) {
+				boolean optionsEmpty = true;
+				for(String key : optionsSection.getKeys(true)) {
+					if(!optionsSection.isConfigurationSection(key) && (!optionsSection.isString(key) || !optionsSection.getString(key).isEmpty())) {
+						optionsEmpty = false;
+						break;
+					}
+				}
+				if(optionsEmpty) {
+
+					// Remove the "options" parent.
+					this.node.set(formatPath(worldName, "options"), null);
+
+				}
+
+				// Check if the identifier (player name / UUID) is now empty (only contains an "options.name") and remove it if it is.
+				if(this.isIdentifierEntryEmpty()) {
+					this.remove();
+					return; // remove() invokes save() already.
+				}
+			}
+		} else {
+			this.node.set(formatPath(worldName, "options", option), value);
+		}
+
 		save();
 	}
 
@@ -251,6 +303,25 @@ public class FileData implements PermissionsUserData, PermissionsGroupData {
 	@Override
 	public void setParents(List<String> parents, String worldName) {
 		this.node.set(formatPath(worldName, parentPath), parents == null ? null : new ArrayList<>(parents));
+		
+		// Remove indices instead of setting them to empty Strings or arrays in the permissions.yml file.
+
+		// Remove the "group" parent if it is now empty
+		if(parents == null || parents.isEmpty()) {
+			List<String> parentsList = this.node.getStringList(formatPath(worldName, parentPath));
+			if(parentsList != null && parentsList.isEmpty()) {
+
+				// Remove the "group" parent.
+				this.node.set(formatPath(worldName, parentPath), null);
+
+				// Check if the identifier (player name / UUID) is now empty (only contains an "options.name") and remove it if it is.
+				if(this.isIdentifierEntryEmpty()) {
+					this.remove();
+					return; // remove() invokes save() already.
+				}
+			}
+		}
+
 		save();
 	}
 
@@ -290,5 +361,25 @@ public class FileData implements PermissionsUserData, PermissionsGroupData {
 		}
 
 		return path;
+	}
+
+	/**
+	 * Checks if the identifier (player name / UUID) is empty (only contains an "options.name").
+	 * @return True if the identifier (player name / UUID) is empty, false otherwise.
+	 */
+	private boolean isIdentifierEntryEmpty() {
+		ConfigurationSection identifierSection = findExistingNode(this.entityName, false);
+		if(identifierSection == null) {
+			return true;
+		}
+		boolean identifierEmpty = true;
+		for(String key : identifierSection.getKeys(true)) {
+			if(!identifierSection.isConfigurationSection(key) && (!identifierSection.isList(key) || !identifierSection.getList(key).isEmpty())
+					&& (!identifierSection.isString(key) || (!identifierSection.getString(key).isEmpty()))) { // && !"options/name".equals(key)))) {
+				identifierEmpty = false;
+				break;
+			}
+		}
+		return identifierEmpty;
 	}
 }
