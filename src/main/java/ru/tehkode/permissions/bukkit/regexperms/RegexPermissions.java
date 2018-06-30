@@ -1,5 +1,6 @@
 package ru.tehkode.permissions.bukkit.regexperms;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -7,6 +8,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permissible;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
+
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 import ru.tehkode.permissions.events.PermissionSystemEvent;
@@ -54,8 +58,25 @@ public class RegexPermissions {
 	}
 
 	public void injectPermissible(Player player) {
-		if (player.hasPermission("permissionsex.disabled")) { // this user shouldn't get permissionsex matching
-			return;
+
+		// Don't apply permissionsex matching for players which have the "permissionsex.disabled" permission.
+		// Due to OP players getting all permissions, we have to do a slightly more extended check.
+		final String permName = "permissionsex.disabled";
+
+		if (player.isPermissionSet(permName)) {
+
+			// Player has the permission, overriding the default value.
+			if(player.hasPermission(permName)) {
+				return;
+			}
+		} else {
+
+			// Player does not have an overrive for the permission, so use the default value.
+			Permission perm = Bukkit.getServer().getPluginManager().getPermission(permName);
+			PermissionDefault permDefault = (perm == null ? Permission.DEFAULT_PERMISSION : perm.getDefault());
+			if(permDefault.getValue(player.isOp())) {
+				return;
+			}
 		}
 
 		try {
