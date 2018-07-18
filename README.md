@@ -1,8 +1,11 @@
-
-**WARNING**: PermissionsEx is currently unmaintained and in search of a maintainer. Issues will not be accepted. Pull requests are. For people looking for an actively maintained permissions plugin, take a look at [LuckPerms](https://github.com/lucko/LuckPerms/wiki). It is compatible with major server platforms and can import data from PEX.
+### PermissionsEx fork
+This fork was created to keep PermissionsEx 1.23.x up-to-date since the original repository is no longer maintained.
+Make sure that you are on the `1.23.x` branch to browse the updated version (which supports at least Bukkit 1.12.2 servers).
+Support for the `NetEvents` plugin has been removed in this version due to `NetEvents` no longer being available.
 
 ---
 
+### PermissionsEx
 PermissionsEx is a powerful permissions plugin for Bukkit powered servers
 
 For instructions see [the wiki](https://github.com/PEXPlugins/PermissionsEx/wiki)
