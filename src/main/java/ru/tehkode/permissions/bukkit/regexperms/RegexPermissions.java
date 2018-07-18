@@ -9,7 +9,6 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
@@ -72,9 +71,10 @@ public class RegexPermissions {
 		} else {
 
 			// Player does not have an overrive for the permission, so use the default value.
+			// Don't fall back to Permission.DEFAULT_PERMISSION if no default permissions are set, since this will
+			// give OPs all permissions.
 			Permission perm = Bukkit.getServer().getPluginManager().getPermission(permName);
-			PermissionDefault permDefault = (perm == null ? Permission.DEFAULT_PERMISSION : perm.getDefault());
-			if(permDefault.getValue(player.isOp())) {
+			if(perm != null && perm.getDefault().getValue(player.isOp())) {
 				return;
 			}
 		}
