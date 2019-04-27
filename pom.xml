@@ -142,9 +142,16 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.13.1-R0.1-SNAPSHOT</version>
+            <version>1.14-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>provided</scope>
+        </dependency>
+        
+        <!-- Google JSON.simple. This was included in Bukkit 1.13.2, but removed in 1.14 -->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
         </dependency>
         
         <dependency>
