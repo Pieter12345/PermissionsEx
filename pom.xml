@@ -180,26 +180,28 @@
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
         </dependency>
-      <dependency>
-        <groupId>com.mojang</groupId>
-        <artifactId>AccountsClient</artifactId>
-        <version>unspecified</version>
-      </dependency>
+        <dependency>
+          <groupId>com.mojang</groupId>
+          <artifactId>AccountsClient</artifactId>
+          <version>unspecified</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
             <id>pex-repo</id>
             <url>http://pex-repo.aoeu.xyz</url>
         </repository>
-        <repository>
-            <id>gravity-repo</id>
-            <url>http://repo.gravitydevelopment.net</url>
-        </repository>
         
         <!-- Bukkit API repo -->
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        
+        <!-- AccountsClient repo -->
+        <repository>
+            <id>accountsclient-repo</id>
+            <url>https://maven.elmakers.com/repository/</url>
         </repository>
         
     </repositories>
