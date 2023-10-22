@@ -267,6 +267,8 @@ public class FileData implements PermissionsUserData, PermissionsGroupData {
 
 	@Override
 	public void remove() {
+		this.virtual = false;
+		this.node = null;
 		this.config.set(nodePath, null);
 		this.save();
 	}
@@ -303,7 +305,7 @@ public class FileData implements PermissionsUserData, PermissionsGroupData {
 	@Override
 	public void setParents(List<String> parents, String worldName) {
 		this.node.set(formatPath(worldName, parentPath), parents == null ? null : new ArrayList<>(parents));
-		
+
 		// Remove indices instead of setting them to empty Strings or arrays in the permissions.yml file.
 
 		// Remove the "group" parent if it is now empty
