@@ -267,10 +267,10 @@ public class FileData implements PermissionsUserData, PermissionsGroupData {
 
 	@Override
 	public void remove() {
-		this.virtual = false;
-		this.node = null;
 		this.config.set(nodePath, null);
+		this.virtual = false;
 		this.save();
+		this.virtual = true;
 	}
 
 	@Override
