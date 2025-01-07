@@ -24,6 +24,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import com.google.common.base.Charsets;
 import com.google.common.cache.CacheBuilder;
 //import com.zachsthings.netevents.NetEventsPlugin; // WoeshEdit - Remove NetEvents dependency.
 import org.bukkit.ChatColor;
@@ -312,6 +313,9 @@ public class PermissionsEx extends JavaPlugin implements NativeInterface {
 			userUUID = player.getUniqueId();
 		} catch (Throwable t) {
 			// Handle cases where the plugin is not running on a uuid-aware Bukkit by just not converting here
+		}
+		if(UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8)).equals(userUUID)) {
+			return null;
 		}
 		return userUUID;
 	}
